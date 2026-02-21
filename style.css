@@ -1,0 +1,64 @@
+/* Custom pattern for the background */
+.bg-pattern {
+    background-color: #f8fcf9;
+    background-image: radial-gradient(#0df259 0.5px, transparent 0.5px);
+    background-size: 20px 20px;
+}
+.dark .bg-pattern {
+    background-color: #102216;
+    background-image: radial-gradient(#1a3322 0.5px, transparent 0.5px);
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+::-webkit-scrollbar {
+    width: 6px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 999px;
+}
+
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 600, 'GRAD' 0, 'opsz' 24;
+}
+.material-symbols-outlined.fill-current {
+    font-variation-settings: 'FILL' 1, 'wght' 600, 'GRAD' 0, 'opsz' 24;
+}
+
+/* Gamified button press effect */
+.btn-press:active, .active-press:active {
+    transform: translateY(4px);
+    box-shadow: none !important;
+}
+.dark .active-press:active {
+    box-shadow: none !important;
+}
+
+/* 3D Transform Utilities for Flashcard completely custom */
+.perspective-1000 {
+    perspective: 1000px;
+}
+.transform-style-3d {
+    transform-style: preserve-3d;
+}
+.backface-hidden {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+.rotate-y-180 {
+    transform: rotateY(180deg);
+}
+
+.flip-active {
+    transform: rotateY(180deg);
+}
+
+/* Safe areas for iOS */
+.pb-safe {
+    padding-bottom: env(safe-area-inset-bottom, 20px);
+}
