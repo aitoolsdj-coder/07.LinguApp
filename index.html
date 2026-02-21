@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="pl">
+
 <head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
     <meta name="theme-color" content="#f5f8f6">
     <title>LinguApp PWA</title>
     <link rel="manifest" href="manifest.json">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script>
         tailwind.config = {
@@ -32,7 +35,7 @@
                     fontFamily: {
                         "display": ["Plus Jakarta Sans", "sans-serif"]
                     },
-                    borderRadius: {"DEFAULT": "1rem", "lg": "1.5rem", "xl": "2rem", "2xl": "2.5rem", "full": "9999px"},
+                    borderRadius: { "DEFAULT": "1rem", "lg": "1.5rem", "xl": "2rem", "2xl": "2.5rem", "full": "9999px" },
                     boxShadow: {
                         'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
                         'card': '0 8px 0 0 #e5e7eb',
@@ -46,39 +49,51 @@
     </script>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display transition-colors duration-200 min-h-screen flex flex-col antialiased selection:bg-primary selection:text-neutral-text">
-    
+
+<body
+    class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display transition-colors duration-200 min-h-screen flex flex-col antialiased selection:bg-primary selection:text-neutral-text">
+
     <!-- View: Dashboard -->
     <div id="view-dashboard" class="view-container flex-col min-h-screen relative hidden">
-      <!-- Header -->
-        <header class="px-6 pt-6 pb-2 flex items-center justify-between sticky top-0 z-10 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm">
+        <!-- Header -->
+        <header
+            class="px-6 pt-6 pb-2 flex items-center justify-between sticky top-0 z-10 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm">
             <div class="flex-1">
-                <p class="text-slate-500 dark:text-slate-400 text-sm font-semibold uppercase tracking-wider mb-0.5">Dzień dobry</p>
+                <p class="text-slate-500 dark:text-slate-400 text-sm font-semibold uppercase tracking-wider mb-0.5">
+                    Dzień dobry</p>
                 <h1 class="text-2xl font-extrabold text-slate-900 dark:text-white">Cześć! 👋</h1>
             </div>
         </header>
-        
+
         <main class="flex-1 px-6 pb-28">
             <!-- Summary Progress -->
-            <div class="mt-4 p-6 mx-auto rounded-2xl bg-surface-light dark:bg-surface-dark shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none border border-slate-100 dark:border-slate-800 relative overflow-hidden group">
+            <div
+                class="mt-4 p-6 mx-auto rounded-2xl bg-surface-light dark:bg-surface-dark shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none border border-slate-100 dark:border-slate-800 relative overflow-hidden group">
                 <div class="flex justify-between items-end mb-4 relative z-10">
                     <div>
                         <h2 class="text-lg font-bold text-slate-900 dark:text-white">Twój postęp</h2>
-                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Opanowałeś już <span id="mastered-count" class="text-primary-dark dark:text-primary font-bold">0</span> słówek!</p>
-                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 font-bold">Seria: <span id="streak-count" class="text-orange-500">🔥 0 dni</span></p>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Opanowałeś już <span
+                                id="mastered-count" class="text-primary-dark dark:text-primary font-bold">0</span>
+                            słówek!</p>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 font-bold">Seria: <span
+                                id="streak-count" class="text-orange-500">🔥 0 dni</span></p>
                     </div>
                 </div>
                 <div class="relative pt-2 z-10">
                     <div class="flex mb-2 items-center justify-between">
-                        <div class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-primary-dark dark:text-primary bg-primary/20">
+                        <div
+                            class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-primary-dark dark:text-primary bg-primary/20">
                             Globalnie
                         </div>
                         <div class="text-right">
-                            <span id="global-progress-text" class="text-xs font-semibold inline-block text-primary-dark dark:text-primary">0%</span>
+                            <span id="global-progress-text"
+                                class="text-xs font-semibold inline-block text-primary-dark dark:text-primary">0%</span>
                         </div>
                     </div>
                     <div class="overflow-hidden h-3 mb-4 text-xs flex rounded-full bg-slate-100 dark:bg-slate-800">
-                        <div id="global-progress-bar" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-primary transition-all duration-500 ease-out" style="width: 0%"></div>
+                        <div id="global-progress-bar"
+                            class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-primary transition-all duration-500 ease-out"
+                            style="width: 0%"></div>
                     </div>
                 </div>
             </div>
@@ -86,33 +101,41 @@
             <!-- Categories -->
             <div class="mt-8 flex justify-between items-center mb-4">
                 <h2 class="text-xl font-bold text-slate-900 dark:text-white">Kategorie</h2>
-                <button id="btn-sync" class="text-sm font-bold text-primary-dark dark:text-primary hover:opacity-80 flex items-center gap-1 active:scale-95 transition-transform">
+                <button id="btn-sync"
+                    class="text-sm font-bold text-primary-dark dark:text-primary hover:opacity-80 flex items-center gap-1 active:scale-95 transition-transform">
                     <span class="material-symbols-outlined text-sm">sync</span> Sync z arkuszem
                 </button>
             </div>
             <div id="categories-container" class="grid grid-cols-2 gap-4">
-                 <p class="col-span-2 text-center text-sm text-slate-500 py-8">Pobieram/Brak danych. Kliknij Sync.</p>
+                <p class="col-span-2 text-center text-sm text-slate-500 py-8">Pobieram/Brak danych. Kliknij Sync.</p>
             </div>
-            
+
             <div class="mt-8 mb-4">
-                 <button id="btn-start-exam" class="col-span-2 group relative w-full flex flex-row items-center justify-start p-6 rounded-2xl bg-white dark:bg-surface-dark border-b-4 border-slate-200 dark:border-slate-700 active:border-b-0 active:translate-y-1 transition-all hover:bg-slate-50 dark:hover:bg-slate-800/50">
-                    <div class="h-14 w-14 mr-4 rounded-2xl bg-red-100 dark:bg-red-900/30 flex items-center justify-center text-3xl shrink-0"><span class="material-symbols-outlined text-red-600 dark:text-red-400">quiz</span></div>
+                <button id="btn-start-exam"
+                    class="col-span-2 group relative w-full flex flex-row items-center justify-start p-6 rounded-2xl bg-white dark:bg-surface-dark border-b-4 border-slate-200 dark:border-slate-700 active:border-b-0 active:translate-y-1 transition-all hover:bg-slate-50 dark:hover:bg-slate-800/50">
+                    <div
+                        class="h-14 w-14 mr-4 rounded-2xl bg-red-100 dark:bg-red-900/30 flex items-center justify-center text-3xl shrink-0">
+                        <span class="material-symbols-outlined text-red-600 dark:text-red-400">quiz</span></div>
                     <div class="flex flex-col items-start text-left">
                         <h3 class="text-base font-bold text-slate-900 dark:text-white mb-1">Egzamin z całości</h3>
-                        <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Sprawdź się w losowym teście</p>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Sprawdź się w losowym teście
+                        </p>
                     </div>
-                 </button>
+                </button>
             </div>
         </main>
-        
+
         <!-- Dashboard Nav -->
-        <nav class="fixed bottom-0 w-full bg-white dark:bg-surface-dark border-t border-slate-100 dark:border-slate-800 pb-safe z-30 pt-2 pb-6 px-6 shadow-[0_-4px_20px_rgba(0,0,0,0.02)]">
+        <nav
+            class="fixed bottom-0 w-full bg-white dark:bg-surface-dark border-t border-slate-100 dark:border-slate-800 pb-safe z-30 pt-2 pb-6 px-6 shadow-[0_-4px_20px_rgba(0,0,0,0.02)]">
             <div class="flex justify-around items-center max-w-md mx-auto">
-                <a href="#" onclick="showDashboard(); return false;" class="nav-btn flex flex-col items-center gap-1 p-2 w-16 text-primary dark:text-primary transition-colors">
+                <a href="#" onclick="showDashboard(); return false;"
+                    class="nav-btn flex flex-col items-center gap-1 p-2 w-16 text-primary dark:text-primary transition-colors">
                     <span class="material-symbols-outlined fill-current">home</span>
                     <span class="text-[10px] font-bold">Home</span>
                 </a>
-                <a href="#" onclick="showArchive(); return false;" class="nav-btn flex flex-col items-center gap-1 p-2 w-16 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
+                <a href="#" onclick="showArchive(); return false;"
+                    class="nav-btn flex flex-col items-center gap-1 p-2 w-16 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
                     <span class="material-symbols-outlined">library_books</span>
                     <span class="text-[10px] font-bold">Archiwum</span>
                 </a>
@@ -121,65 +144,89 @@
     </div>
 
     <!-- View: Learning & Exam -->
-    <div id="view-learning" class="view-container flex-col h-[100dvh] relative hidden bg-background-light dark:bg-background-dark w-full mx-auto">
+    <div id="view-learning"
+        class="view-container flex-col h-[100dvh] relative hidden bg-background-light dark:bg-background-dark w-full mx-auto">
         <header class="flex-none px-6 pt-6 pb-2 max-w-md mx-auto w-full">
             <div class="flex items-center gap-4 mb-4">
-                <button onclick="showDashboard()" class="flex items-center justify-center p-2 rounded-full hover:bg-neutral-surface/50 dark:hover:bg-slate-800 transition-colors text-slate-400 hover:text-slate-600 active:scale-95">
+                <button onclick="showDashboard()"
+                    class="flex items-center justify-center p-2 rounded-full hover:bg-neutral-surface/50 dark:hover:bg-slate-800 transition-colors text-slate-400 hover:text-slate-600 active:scale-95">
                     <span class="material-symbols-outlined !text-[28px] font-bold">close</span>
                 </button>
-                <div class="flex-1 h-4 bg-gray-200 dark:bg-slate-700 rounded-full relative overflow-hidden shadow-inner">
-                    <div id="session-progress-bar" class="absolute top-0 left-0 h-full bg-primary transition-all duration-500 ease-out rounded-full" style="width: 0%;">
+                <div
+                    class="flex-1 h-4 bg-gray-200 dark:bg-slate-700 rounded-full relative overflow-hidden shadow-inner">
+                    <div id="session-progress-bar"
+                        class="absolute top-0 left-0 h-full bg-primary transition-all duration-500 ease-out rounded-full"
+                        style="width: 0%;">
                         <div class="absolute top-1 right-2 w-2/3 h-1 bg-white/30 rounded-full"></div>
                     </div>
                 </div>
             </div>
-            <div class="flex justify-between px-2 text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+            <div
+                class="flex justify-between px-2 text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
                 <span id="session-category-name">Kategoria</span>
                 <span id="session-progress-text">1 / 15</span>
             </div>
-             <div id="exam-score-container" class="hidden justify-center items-center mt-2 text-xl font-bold text-primary transition-all">
-                 Wynik: <span id="exam-score">0</span>
-             </div>
+            <div id="exam-score-container"
+                class="hidden justify-center items-center mt-2 text-xl font-bold text-primary transition-all">
+                Wynik: <span id="exam-score">0</span>
+            </div>
         </header>
 
-        <main class="flex-1 flex flex-col px-6 pb-4 overflow-hidden relative perspective-1000 max-w-md mx-auto w-full" id="flashcard-main">
-            <div id="flashcard-inner" class="relative w-full h-full text-center transition-transform duration-700 transform-style-3d cursor-pointer mt-2 mb-2" onclick="flipCard()">
-                
+        <main class="flex-1 flex flex-col px-6 pb-4 overflow-hidden relative perspective-1000 max-w-md mx-auto w-full"
+            id="flashcard-main">
+            <div id="flashcard-inner"
+                class="relative w-full h-full text-center transition-transform duration-700 transform-style-3d cursor-pointer mt-2 mb-2"
+                onclick="flipCard()">
+
                 <!-- Front -->
-                <div class="absolute w-full h-full backface-hidden bg-card-light dark:bg-card-dark rounded-3xl p-6 md:p-8 shadow-card dark:shadow-card-dark border-2 border-gray-100 dark:border-gray-800 flex flex-col items-center text-center justify-between hover:translate-y-[-2px] transition-all">
-                     <div class="w-full flex flex-col gap-6 items-center flex-1 justify-center">
+                <div
+                    class="absolute w-full h-full backface-hidden bg-card-light dark:bg-card-dark rounded-3xl p-6 md:p-8 shadow-card dark:shadow-card-dark border-2 border-gray-100 dark:border-gray-800 flex flex-col items-center text-center justify-between hover:translate-y-[-2px] transition-all">
+                    <div class="w-full flex flex-col gap-6 items-center flex-1 justify-center">
                         <div class="w-full">
-                            <span class="inline-block px-4 py-1.5 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-300 text-sm font-bold tracking-wide shadow-sm">POLISH</span>
-                            <h2 id="card-front-pl" class="mt-6 text-3xl font-bold text-slate-700 dark:text-slate-200">...</h2>
+                            <span
+                                class="inline-block px-4 py-1.5 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-300 text-sm font-bold tracking-wide shadow-sm">POLISH</span>
+                            <h2 id="card-front-pl" class="mt-6 text-3xl font-bold text-slate-700 dark:text-slate-200">
+                                ...</h2>
                         </div>
                         <div class="w-full h-px bg-gray-100 dark:bg-gray-700 my-2"></div>
                         <div class="w-full py-2">
-                             <p class="text-2xl font-extrabold leading-relaxed text-text-main dark:text-white mt-4" id="card-front-en-sentence">
+                            <p class="text-2xl font-extrabold leading-relaxed text-text-main dark:text-white mt-4"
+                                id="card-front-en-sentence">
                                 ...
-                             </p>
+                            </p>
                         </div>
-                     </div>
-                     <div class="mt-auto text-center pt-6 opacity-70 animate-pulse">
-                        <p class="text-gray-400 dark:text-gray-500 text-sm font-bold uppercase tracking-widest">Odwróć fiszkę</p>
+                    </div>
+                    <div class="mt-auto text-center pt-6 opacity-70 animate-pulse">
+                        <p class="text-gray-400 dark:text-gray-500 text-sm font-bold uppercase tracking-widest">Odwróć
+                            fiszkę</p>
                         <span class="material-symbols-outlined text-gray-300 dark:text-gray-600 mt-2">touch_app</span>
-                     </div>
+                    </div>
                 </div>
 
                 <!-- Back -->
-                <div class="absolute w-full h-full backface-hidden rotate-y-180 bg-neutral-surface dark:bg-slate-800 rounded-3xl p-6 md:p-8 shadow-card dark:shadow-card-dark border-2 border-slate-200 dark:border-slate-700 flex flex-col items-center justify-center">
-                    <div class="flex-1 flex flex-col items-center justify-center text-center w-full relative z-10 w-full">
-                        <div class="mb-4 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/20 text-green-700 dark:text-green-300 text-xs font-bold uppercase tracking-wider">
+                <div
+                    class="absolute w-full h-full backface-hidden rotate-y-180 bg-neutral-surface dark:bg-slate-800 rounded-3xl p-6 md:p-8 shadow-card dark:shadow-card-dark border-2 border-slate-200 dark:border-slate-700 flex flex-col items-center justify-center">
+                    <div
+                        class="flex-1 flex flex-col items-center justify-center text-center w-full relative z-10 w-full">
+                        <div
+                            class="mb-4 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/20 text-green-700 dark:text-green-300 text-xs font-bold uppercase tracking-wider">
                             <span class="material-symbols-outlined text-[16px]">visibility</span> Odpowiedź
                         </div>
-                        <h1 id="card-back-en" class="text-4xl font-extrabold text-neutral-text dark:text-white mb-6 leading-tight">...</h1>
+                        <h1 id="card-back-en"
+                            class="text-4xl font-extrabold text-neutral-text dark:text-white mb-6 leading-tight">...
+                        </h1>
                         <div class="w-16 h-1 bg-gray-200 dark:bg-slate-600 rounded-full mb-6"></div>
                         <div class="space-y-4 max-w-md w-full">
-                            <p id="card-back-en-sentence" class="text-xl font-medium text-slate-700 dark:text-slate-200 leading-relaxed">...</p>
-                            <p id="card-back-pl-sentence" class="text-base font-medium text-slate-400 dark:text-slate-500 leading-relaxed italic">...</p>
+                            <p id="card-back-en-sentence"
+                                class="text-xl font-medium text-slate-700 dark:text-slate-200 leading-relaxed">...</p>
+                            <p id="card-back-pl-sentence"
+                                class="text-base font-medium text-slate-400 dark:text-slate-500 leading-relaxed italic">
+                                ...</p>
                         </div>
-                        
+
                         <div class="mt-10 flex justify-center">
-                            <button onclick="playTTS(currentWord.EnglishWord); event.stopPropagation();" class="flex items-center gap-2 px-6 py-3 rounded-full bg-white dark:bg-slate-700 shadow-sm border border-slate-200 dark:border-slate-600 text-primary-dark font-bold text-lg hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors active:scale-95">
+                            <button onclick="playTTS(currentWord.EnglishWord); event.stopPropagation();"
+                                class="flex items-center gap-2 px-6 py-3 rounded-full bg-white dark:bg-slate-700 shadow-sm border border-slate-200 dark:border-slate-600 text-primary-dark font-bold text-lg hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors active:scale-95">
                                 <span class="material-symbols-outlined text-2xl">volume_up</span> Wymowa
                             </button>
                         </div>
@@ -189,15 +236,18 @@
         </main>
 
         <!-- Actions Footer -->
-        <footer id="flashcard-actions" class="flex-none px-6 pb-safe pt-4 bg-background-light dark:bg-background-dark opacity-0 pointer-events-none transition-opacity duration-300 h-[100px] max-w-md w-full mx-auto">
+        <footer id="flashcard-actions"
+            class="flex-none px-6 pb-safe pt-4 bg-background-light dark:bg-background-dark opacity-0 pointer-events-none transition-opacity duration-300 h-[100px] max-w-md w-full mx-auto">
             <div class="flex gap-4 w-full h-full relative z-20">
-                <button onclick="handleAnswer(false)" class="btn-press flex-1 group relative flex items-center justify-center h-full rounded-2xl bg-failure-light dark:bg-red-900/30 border-b-4 border-red-200 dark:border-red-900/50 active:border-b-0 transition-all cursor-pointer shadow-sm">
+                <button onclick="handleAnswer(false)"
+                    class="btn-press flex-1 group relative flex items-center justify-center h-full rounded-2xl bg-failure-light dark:bg-red-900/30 border-b-4 border-red-200 dark:border-red-900/50 active:border-b-0 transition-all cursor-pointer shadow-sm">
                     <div class="flex flex-col items-center gap-1 pointer-events-none">
                         <span class="material-symbols-outlined text-failure-text font-bold text-[32px]">close</span>
                         <span class="text-failure-text font-bold tracking-wide uppercase text-xs">Pomyłka</span>
                     </div>
                 </button>
-                <button onclick="handleAnswer(true)" class="btn-press flex-1 group relative flex items-center justify-center h-full rounded-2xl bg-primary dark:bg-primary border-b-4 border-green-600/30 dark:border-green-800/30 active:border-b-0 transition-all cursor-pointer shadow-sm">
+                <button onclick="handleAnswer(true)"
+                    class="btn-press flex-1 group relative flex items-center justify-center h-full rounded-2xl bg-primary dark:bg-primary border-b-4 border-green-600/30 dark:border-green-800/30 active:border-b-0 transition-all cursor-pointer shadow-sm">
                     <div class="flex flex-col items-center gap-1 pointer-events-none">
                         <span class="material-symbols-outlined text-neutral-text font-bold text-[32px]">check</span>
                         <span class="text-neutral-text font-bold tracking-wide uppercase text-xs">Dobrze</span>
@@ -206,48 +256,59 @@
             </div>
         </footer>
     </div>
-    
+
     <!-- View: Summaries -->
-    <div id="view-session-summary" class="view-container flex-col min-h-[100dvh] relative hidden bg-background-light dark:bg-background-dark justify-center items-center px-6">
+    <div id="view-session-summary"
+        class="view-container flex-col min-h-[100dvh] relative hidden bg-background-light dark:bg-background-dark justify-center items-center px-6">
         <div class="text-center w-full max-w-md">
-             <div class="w-32 h-32 mx-auto bg-primary/20 rounded-full flex items-center justify-center mb-6 animate-bounce">
-                 <span class="material-symbols-outlined text-6xl text-primary">emoji_events</span>
-             </div>
-             <h2 class="text-4xl font-extrabold text-slate-900 dark:text-white mb-4" id="summary-title">Super!</h2>
-             <p class="text-slate-500 mb-10 text-lg" id="summary-text">Twoje postępy zostały zaktualizowane.</p>
-             
-             <button onclick="showDashboard()" class="w-full py-5 rounded-2xl font-bold text-xl bg-primary text-slate-900 shadow-[0_4px_0_0_#0abf46] active:translate-y-1 active:shadow-none transition-all flex items-center justify-center gap-2">
-                 <span class="material-symbols-outlined">home</span> Panel Główny
-             </button>
+            <div
+                class="w-32 h-32 mx-auto bg-primary/20 rounded-full flex items-center justify-center mb-6 animate-bounce">
+                <span class="material-symbols-outlined text-6xl text-primary">emoji_events</span>
+            </div>
+            <h2 class="text-4xl font-extrabold text-slate-900 dark:text-white mb-4" id="summary-title">Super!</h2>
+            <p class="text-slate-500 mb-10 text-lg" id="summary-text">Twoje postępy zostały zaktualizowane.</p>
+
+            <button onclick="showDashboard()"
+                class="w-full py-5 rounded-2xl font-bold text-xl bg-primary text-slate-900 shadow-[0_4px_0_0_#0abf46] active:translate-y-1 active:shadow-none transition-all flex items-center justify-center gap-2">
+                <span class="material-symbols-outlined">home</span> Panel Główny
+            </button>
         </div>
     </div>
 
     <!-- View: Archive -->
-    <div id="view-archive" class="view-container flex-col min-h-screen relative hidden max-w-md mx-auto w-full group/design-root">
-       <header class="sticky top-0 z-20 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm px-4 pt-6 pb-2 border-b border-slate-200 dark:border-slate-800/50">
+    <div id="view-archive"
+        class="view-container flex-col min-h-screen relative hidden max-w-md mx-auto w-full group/design-root">
+        <header
+            class="sticky top-0 z-20 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm px-4 pt-6 pb-2 border-b border-slate-200 dark:border-slate-800/50">
             <div class="flex items-center justify-between">
-                 <button onclick="showDashboard()" class="flex items-center justify-center w-12 h-12 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-600 dark:text-slate-300">
+                <button onclick="showDashboard()"
+                    class="flex items-center justify-center w-12 h-12 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-600 dark:text-slate-300">
                     <span class="material-symbols-outlined text-2xl">arrow_back</span>
-                 </button>
-                 <h2 class="text-xl font-extrabold tracking-tight text-center flex-1 pr-12 text-slate-800 dark:text-white">Archiwum Nauczeń</h2>
+                </button>
+                <h2
+                    class="text-xl font-extrabold tracking-tight text-center flex-1 pr-12 text-slate-800 dark:text-white">
+                    Archiwum Nauczeń</h2>
             </div>
             <div class="mt-2 text-center text-sm font-bold text-slate-500 pb-2">
                 Łącznie: <span id="archive-count" class="text-primary-dark">0 słów</span>
             </div>
-       </header>
+        </header>
 
-       <main class="flex-1 overflow-y-auto px-6 py-6 space-y-4 pb-32" id="archive-list-container">
-           <!-- Items via JS -->
-       </main>
-       
-       <!-- Archive Nav -->
-        <nav class="fixed bottom-0 w-full bg-white dark:bg-surface-dark border-t border-slate-100 dark:border-slate-800 pb-safe z-30 pt-2 pb-6 px-6 shadow-[0_-4px_20px_rgba(0,0,0,0.02)] max-w-md left-1/2 -translate-x-1/2 rounded-t-3xl">
+        <main class="flex-1 overflow-y-auto px-6 py-6 space-y-4 pb-32" id="archive-list-container">
+            <!-- Items via JS -->
+        </main>
+
+        <!-- Archive Nav -->
+        <nav
+            class="fixed bottom-0 w-full bg-white dark:bg-surface-dark border-t border-slate-100 dark:border-slate-800 pb-safe z-30 pt-2 pb-6 px-6 shadow-[0_-4px_20px_rgba(0,0,0,0.02)] max-w-md left-1/2 -translate-x-1/2 rounded-t-3xl">
             <div class="flex justify-around items-center">
-                <a href="#" onclick="showDashboard(); return false;" class="nav-btn flex flex-col items-center gap-1 p-2 w-16 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
+                <a href="#" onclick="showDashboard(); return false;"
+                    class="nav-btn flex flex-col items-center gap-1 p-2 w-16 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
                     <span class="material-symbols-outlined">home</span>
                     <span class="text-[10px] font-bold">Home</span>
                 </a>
-                <a href="#" class="nav-btn flex flex-col items-center gap-1 p-2 w-16 text-primary dark:text-primary transition-colors">
+                <a href="#"
+                    class="nav-btn flex flex-col items-center gap-1 p-2 w-16 text-primary dark:text-primary transition-colors">
                     <span class="material-symbols-outlined fill-current">library_books</span>
                     <span class="text-[10px] font-bold">Archiwum</span>
                 </a>
@@ -258,11 +319,12 @@
     <!-- JS Logic -->
     <script src="app.js"></script>
     <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/service-worker.js').catch(err => console.log('SW registration failed:', err));
-        });
-      }
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js').catch(err => console.log('SW registration failed:', err));
+            });
+        }
     </script>
 </body>
+
 </html>

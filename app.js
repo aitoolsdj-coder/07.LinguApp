@@ -13,7 +13,7 @@ function loadData() {
     if (data) {
         words = JSON.parse(data);
     }
-    
+
     const streak = localStorage.getItem("linguapp_streak");
     if (streak) {
         streakCounter = parseInt(streak, 10);
@@ -27,7 +27,7 @@ function loadData() {
             const dateOld = new Date(lastDate);
             const dateNew = new Date(today);
             const diffTime = Math.abs(dateNew - dateOld);
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
             if (diffDays > 1) {
                 streakCounter = 0;
                 localStorage.setItem("linguapp_streak", streakCounter);
@@ -51,55 +51,67 @@ function saveStreak() {
 }
 
 async function fetchCSV() {
+    const btn = document.getElementById("btn-sync");
+    const originalText = btn.innerHTML;
     try {
-        const btn = document.getElementById("btn-sync");
-        const originalText = btn.innerHTML;
         btn.innerHTML = `<span class="material-symbols-outlined text-sm animate-spin">sync</span> Synchronizuję...`;
-        
+
         const response = await fetch(sheetUrl);
+        if (!response.ok) throw new Error("Błąd HTTP: " + response.status);
         const text = await response.text();
-        parseAndSyncCSV(text);
-        
-        btn.innerHTML = originalText;
+
+        const syncCount = parseAndSyncCSV(text);
+
+        // Success feedback
+        btn.innerHTML = `<span class="material-symbols-outlined text-sm">check_circle</span> Sukces! (${syncCount})`;
+        btn.classList.add("text-green-600");
+        setTimeout(() => {
+            btn.innerHTML = originalText;
+            btn.classList.remove("text-green-600");
+        }, 3000);
+
         renderDashboard();
     } catch (err) {
         console.error("Failed to fetch CSV", err);
-        alert("Błąd synchronizacji. Sprawdź połączenie.");
-        document.getElementById("btn-sync").innerHTML = `<span class="material-symbols-outlined text-sm">sync</span> Sync z arkuszem`;
+        alert("Błąd synchronizacji. Sprawdź połączenie lub uprawnienia arkusza.");
+        btn.innerHTML = `<span class="material-symbols-outlined text-sm text-red-500">error</span> Błąd!`;
+        setTimeout(() => { btn.innerHTML = originalText; }, 3000);
     }
 }
 
 function parseAndSyncCSV(csvText) {
     const lines = csvText.split('\n');
-    if (lines.length < 2) return;
-    
+    if (lines.length < 2) return 0;
+
     const newWordsMap = new Map();
-    
+
     for (let i = 1; i < lines.length; i++) {
         const line = lines[i].trim();
         if (!line) continue;
-        
+
         const row = parseCSVLine(line);
-        if (row.length >= 5) {
+        if (row.length >= 3) {
             const EnglishWord = row[0].trim();
+            if (!EnglishWord) continue;
+
             const WordId = EnglishWord.toLowerCase().replace(/\s+/g, '-');
             const obj = {
                 WordId: WordId,
                 EnglishWord: EnglishWord,
-                PolishTranslation: row[1].trim(),
-                ExampleSentence: row[2].trim(),
-                TagId: row[3].trim(),
-                CategoryName: row[4].trim()
+                PolishTranslation: row[1] ? row[1].trim() : "",
+                ExampleSentence: row[2] ? row[2].trim() : "",
+                TagId: row[3] ? row[3].trim() : "1",
+                CategoryName: row[4] ? row[4].trim() : "Ogólne"
             };
             newWordsMap.set(WordId, obj);
         }
     }
-    
+
     let mappedExisting = new Map();
     words.forEach(w => mappedExisting.set(w.WordId, w));
-    
+
     const finalWordsList = [];
-    
+
     newWordsMap.forEach((val, key) => {
         if (mappedExisting.has(key)) {
             const exist = mappedExisting.get(key);
@@ -111,9 +123,10 @@ function parseAndSyncCSV(csvText) {
         }
         finalWordsList.push(val);
     });
-    
+
     words = finalWordsList;
     saveData();
+    return newWordsMap.size;
 }
 
 function parseCSVLine(text) {
@@ -164,15 +177,15 @@ function showDashboard() {
 
 function renderDashboard() {
     document.getElementById("streak-count").innerText = `🔥 ${streakCounter} dni`;
-    
+
     const mastered = words.filter(w => w.Status === 2).length;
     document.getElementById("mastered-count").innerText = mastered;
-    
+
     const globalProgress = words.length > 0 ? Math.round((mastered / words.length) * 100) : 0;
-    
+
     document.getElementById("global-progress-text").innerText = `${globalProgress}%`;
     document.getElementById("global-progress-bar").style.width = `${globalProgress}%`;
-    
+
     const categoriesMap = new Map();
     words.forEach(w => {
         if (!categoriesMap.has(w.CategoryName)) {
@@ -180,27 +193,27 @@ function renderDashboard() {
         }
         categoriesMap.get(w.CategoryName).count++;
     });
-    
+
     const container = document.getElementById("categories-container");
     container.innerHTML = "";
-    
+
     if (categoriesMap.size === 0) {
         container.innerHTML = `<p class="col-span-2 text-center text-sm text-slate-500 py-8">Brak danych. Kliknij Sync z arkuszem.</p>`;
         return;
     }
-    
+
     let index = 0;
     categoriesMap.forEach((data, catName) => {
         const icon = catIcons[index % catIcons.length];
         const color = catColors[index % catColors.length];
         const catWords = words.filter(w => w.CategoryName === catName);
-        const catMastered = catWords.filter(w=>w.Status === 2).length;
+        const catMastered = catWords.filter(w => w.Status === 2).length;
         const progressPct = catWords.length > 0 ? (catMastered / catWords.length) * 100 : 0;
 
         const btn = document.createElement("button");
         btn.className = `group relative flex flex-col items-center justify-center p-6 rounded-2xl bg-white dark:bg-surface-dark border-b-4 border-slate-200 dark:border-slate-700 active:border-b-0 active:translate-y-1 transition-all hover:bg-slate-50 dark:hover:bg-slate-800/50 h-44 w-full`;
         btn.onclick = () => startSession(catName, "learn");
-        
+
         btn.innerHTML = `
             <div class="h-16 w-16 mb-3 rounded-2xl bg-${color}-100 dark:bg-${color}-900/30 flex items-center justify-center text-3xl">
                 ${icon}
@@ -243,15 +256,15 @@ function startSession(categoryName, type) {
         document.getElementById("exam-score-container").classList.remove("hidden");
         document.getElementById("exam-score").innerText = "0";
     }
-    
+
     if (pool.length === 0) {
         alert("Brak słówek do nauki w tej kategorii! Zresetuj je z Archiwum.");
         return;
     }
-    
+
     sessionWords = pool;
     currentWordIndex = 0;
-    
+
     hideAllViews();
     viewLearning.classList.remove("hidden");
     viewLearning.classList.add("flex");
@@ -262,11 +275,11 @@ function loadWordCard() {
     isFlipped = false;
     document.getElementById("flashcard-inner").classList.remove("flip-active");
     document.getElementById("flashcard-actions").classList.add("opacity-0", "pointer-events-none");
-    
+
     currentWord = sessionWords[currentWordIndex];
-    
+
     document.getElementById("card-front-pl").innerText = currentWord.PolishTranslation;
-    
+
     let clozeSentence = currentWord.ExampleSentence;
     // VERY simple case insensitive replacement
     const wordPattern = new RegExp(currentWord.EnglishWord, "gi");
@@ -288,7 +301,7 @@ function flipCard() {
     isFlipped = true;
     document.getElementById("flashcard-inner").classList.add("flip-active");
     document.getElementById("flashcard-actions").classList.remove("opacity-0", "pointer-events-none");
-    
+
     playTTS(currentWord.EnglishWord);
 }
 
@@ -317,10 +330,10 @@ function handleAnswer(correct) {
 
 function finishSession() {
     if (sessionType === "learn") {
-        saveData(); 
+        saveData();
         saveStreak();
     }
-    
+
     hideAllViews();
     viewSessionSummary.classList.remove("hidden");
     viewSessionSummary.classList.add("flex");
@@ -344,13 +357,13 @@ function showArchive() {
     hideAllViews();
     viewArchive.classList.remove("hidden");
     viewArchive.classList.add("flex");
-    
+
     const archiveList = document.getElementById("archive-list-container");
     archiveList.innerHTML = "";
-    
+
     const mastered = words.filter(w => w.Status === 2);
     document.getElementById("archive-count").innerText = `${mastered.length} słów`;
-    
+
     if (mastered.length === 0) {
         archiveList.innerHTML = `<p class="text-center text-slate-500 mt-10">Brak opanowanych słówek.</p>`;
         return;
